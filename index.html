@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoulSync - Your Personal Wellness Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #8B5CF6, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #8B5CF6;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #8B5CF6, #3B82F6);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 50%, #06B6D4 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            animation: slideInLeft 1s ease-out 0.1s both;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            animation: slideInLeft 1s ease-out 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: slideInLeft 1s ease-out 0.4s both;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #8B5CF6;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #8B5CF6;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: slideInRight 1s ease-out;
+        }
+
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .phone-mockup:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #8B5CF6, #3B82F6, #06B6D4);
+            border-radius: 20px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 20%; right: 10%; animation-delay: 1s; }
+        .floating-icon:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 2s; }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: #f8f9fa;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8B5CF6, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(139, 92, 246, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #8B5CF6, #3B82F6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 6rem 0;
+            background: white;
+        }
+
+        .steps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #8B5CF6, #3B82F6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .step-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Sync Section */
+        .sync-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+        }
+
+        .sync-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .sync-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .sync-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .sync-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .sync-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .sync-features li::before {
+            content: '✨';
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .sync-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sync-icon {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .sync-icon::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 50%, #06B6D4 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #8B5CF6;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #95a5a6;
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .sync-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="logo">
+                🧠 SoulSync
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#sync">SoulSync</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#early-access" class="cta-button">Join Waitlist</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Sync With Your Soul</h1>
+                <div class="hero-tagline">Your AI-Powered Mental Wellness Guardian</div>
+                <p>Discover patterns in your emotional landscape through intelligent voice analysis and behavioral insights. Get proactive support when you need it most, all with complete privacy control.</p>
+                <div class="hero-buttons">
+                    <a href="#early-access" class="btn-primary">
+                        🚀 Start Your Journey
+                    </a>
+                    <a href="#learn-more" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <h3>🎤 Voice Journal</h3>
+                        <p>Share your inner world</p>
+                        <div style="margin: 20px 0;">🔄</div>
+                        <p>Find your rhythm</p>
+                        <div style="margin: 20px 0;">💜</div>
+                        <p>Sync with your soul</p>
+                    </div>
+                </div>
+                <div class="floating-elements">
+                    <div class="floating-icon">💜</div>
+                    <div class="floating-icon">🌟</div>
+                    <div class="floating-icon">🔮</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2 class="section-title">Intelligent Soul Connection</h2>
+            <p class="section-subtitle">Advanced AI technology that understands your unique emotional patterns and provides personalized support</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎙️</div>
+                    <h3>Voice Soul Reading</h3>
+                    <p>Advanced voice analysis detects subtle emotional nuances in your daily journals, creating a deep understanding of your inner emotional landscape.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Life Pattern Insights</h3>
+                    <p>Comprehensive analysis of sleep, activity, and emotional rhythms provides a 360-degree view of your wellness journey and personal growth.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Personal Soul Map</h3>
+                    <p>AI learns your unique emotional baseline, creating a personalized map of your mental wellness patterns for accurate change detection.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Proactive Soul Care</h3>
+                    <p>When your patterns shift, receive personalized interventions from gentle mindfulness exercises to connecting with your support circle.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Sacred Privacy</h3>
+                    <p>Your soul's data is precious. End-to-end encryption and local processing ensure your most intimate thoughts remain completely secure.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Soul Circle Support</h3>
+                    <p>Seamlessly connect with trusted loved ones or professionals when you need support, while maintaining complete control over your privacy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="steps-container">
+            <h2 class="section-title">Your SoulSync Journey</h2>
+            <p class="section-subtitle">A simple, sacred process designed to honor your privacy and support your wellbeing</p>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Share Your Truth</h3>
+                    <p>Record brief voice journals sharing your authentic feelings. All data is encrypted and processed securely on your device.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>AI Learns Your Soul</h3>
+                    <p>Our compassionate AI analyzes your voice patterns and emotions to understand your unique spiritual and emotional baseline.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Gentle Monitoring</h3>
+                    <p>The system quietly observes meaningful changes while respecting your sacred privacy and maintaining complete data sovereignty.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Soulful Support</h3>
+                    <p>When concerning patterns emerge, receive personalized healing interventions and support based on your spiritual preferences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sync Section -->
+    <section class="sync-section" id="sync">
+        <div class="sync-container">
+            <div class="sync-content">
+                <h2>Sync With Your True Self</h2>
+                <p>SoulSync creates a sacred space where technology meets spirituality. Our AI doesn't just analyze data - it honors your emotional journey with the reverence it deserves.</p>
+                
+                <ul class="sync-features">
+                    <li>End-to-end encryption protects your sacred thoughts</li>
+                    <li>Local processing keeps your soul's data on your device</li>
+                    <li>Zero-knowledge architecture - we honor your privacy</li>
+                    <li>Spiritual-aware consent controls for every feature</li>
+                    <li>HIPAA compliant with metaphysical mindfulness</li>
+                    <li>Complete data sovereignty and deletion rights</li>
+                </ul>
+                
+                <a href="#privacy-policy" class="btn-primary">Read Our Sacred Privacy Promise</a>
+            </div>
+            <div class="sync-visual">
+                <div class="sync-icon">
+                    🔮
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="early-access">
+        <div class="cta-container">
+            <h2>Begin Your Soul Journey</h2>
+            <p>Join our sacred circle of early adopters and help us create the future of conscious mental wellness. Limited spaces for our private beta community.</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Join Sacred Beta</a>
+                <a href="#" class="btn-secondary">Schedule Soul Reading</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>🧠 SoulSync</h3>
+                <p>Empowering conscious mental wellness through intelligent technology and spiritual awareness.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Soul Journey</h3>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">Your Journey</a>
+                <a href="#pricing">Sacred Pricing</a>
+                <a href="#faq">Soul FAQ</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Sacred Circle</h3>
+                <a href="#about">Our Mission</a>
+                <a href="#careers">Join Us</a>
+                <a href="#press">Media</a>
+                <a href="#contact">Connect</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Soul Support</h3>
+                <a href="#help">Guidance Center</a>
+                <a href="#privacy">Privacy Promise</a>
+                <a href="#terms">Sacred Terms</a>
+                <a href="#security">Soul Security</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 SoulSync. All rights reserved. | Crafted with 💜 for conscious wellness</p>
+        </div>
+    </footer>
+</body>
+</html>
